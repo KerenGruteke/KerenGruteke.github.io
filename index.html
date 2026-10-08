@@ -1,403 +1,328 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="google-site-verification" content="DtmRtueBCZnKP791uu8GOcsUxiCCsI2fQ-XteTPnW4Y" />
+<head>
+<meta charset="utf-8">
+<meta name="google-site-verification" content="DtmRtueBCZnKP791uu8GOcsUxiCCsI2fQ-XteTPnW4Y">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Keren Gruteke Klein</title>
+<meta name="author" content="Keren Gruteke Klein">
+<meta name="description" content="Keren Gruteke Klein, PhD candidate in Data Science at the Technion (LaCC Lab). Research on cognitively driven readability, text simplification and eye movements in reading.">
+<link rel="shortcut icon" href="images/favicon/favicon.ico" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one 880px reading column. Header = text + portrait, a scanpath trace under the name.
+   Publications as rows: figure thumbnail | metadata, with abstract and BibTeX in drawers.
+   Colors follow the talk: blue = eye tracking / reading, orange = readability methods. */
+:root{
+  --bg:#fbfcfd; --surface:#f1f4f7; --card:#ffffff; --fg:#14181f; --muted:#5b6472; --rule:#e2e6ec;
+  --blue:#1f6fbf; --blue-soft:#e6f0fa; --orange:#c2690a; --orange-soft:#fbefe1;
+  --sans:"DM Sans","Helvetica Neue",Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --fig-bg:#ffffff; --red:#b83a2e; --green:#2b7d50;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111419; --surface:#181c23; --card:#1a1f27; --fg:#e9ecf1; --muted:#9ba4b2; --rule:#2a3039;
+  --blue:#7fb2ec; --blue-soft:#1b2a3d; --orange:#f0a24f; --orange-soft:#33261a; --fig-bg:#f4f5f7; --red:#f08a7e; --green:#6fcf97; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111419; --surface:#181c23; --card:#1a1f27; --fg:#e9ecf1; --muted:#9ba4b2; --rule:#2a3039;
+  --blue:#7fb2ec; --blue-soft:#1b2a3d; --orange:#f0a24f; --orange-soft:#33261a; --fig-bg:#f4f5f7; --red:#f08a7e; --green:#6fcf97; color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 var(--sans);padding-inline:20px}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:4px}
+.wrap{max-width:880px;margin:0 auto;padding-block:56px 40px;display:flex;flex-direction:column;gap:64px}
 
-    <title>Keren Gruteke Klein</title>
+/* header */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:40px;align-items:center}
+.hero h1{margin:0;font-size:44px;line-height:1.1;font-weight:700;letter-spacing:-.02em;text-wrap:balance}
+.trace{display:block;width:100%;max-width:420px;height:34px;margin:10px 0 14px}
+.trace .sacc{stroke:var(--blue);stroke-width:1.4;fill:none;opacity:.55}
+.trace .fix{fill:var(--blue);opacity:.8}
+.trace .reg{stroke:var(--orange);stroke-width:1.4;fill:none;opacity:.8}
+.trace .fix.o{fill:var(--orange)}
+.role{margin:0 0 16px;font-weight:500;color:var(--muted)}
+.hero p{margin:0 0 12px;max-width:62ch}
+.hl{color:var(--fg);font-weight:500;background:linear-gradient(transparent 62%,var(--blue-soft) 62%)}
+.hl.o{background:linear-gradient(transparent 62%,var(--orange-soft) 62%)}
+.portrait{width:220px;height:220px;border-radius:50%;object-fit:cover;border:4px solid var(--card);box-shadow:0 0 0 1px var(--rule)}
+.contact{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.email{font-family:var(--mono);font-size:14px;color:var(--muted);margin-top:12px}
 
-    <meta name="author" content="Keren Gruteke Klein" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="shortcut icon" href="images/favicon/favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" type="text/css" href="stylesheet.css" />
+/* pills */
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border:1px solid var(--rule);border-radius:999px;background:var(--card);color:var(--fg);font:500 14px/1.3 var(--sans);cursor:pointer;text-decoration:none}
+.pill:hover{border-color:var(--blue);color:var(--blue);text-decoration:none}
+.pill svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.pill.ghost{background:transparent}
+.tldr{margin:0 0 12px;font-size:15px;max-width:68ch}
+.tldr-label{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.04em;color:var(--muted);border:1px solid var(--rule);border-radius:4px;padding:0 5px;margin-right:8px;vertical-align:1px}
+.k-blue{color:var(--blue);font-weight:500} .k-orange{color:var(--orange);font-weight:500} .k-red{color:var(--red);font-weight:500} .k-green{color:var(--green);font-weight:500}
+.pill svg.brand{width:16px;height:16px;stroke:none}
+.pill[aria-expanded="true"]{background:var(--blue-soft);border-color:var(--blue);color:var(--blue)}
 
-    <style>
-      /* small enhancements if stylesheet.css is missing */
-      body { font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif; line-height: 1.5; color: #222; }
-      a { color: #1772d0; text-decoration: none; }
-      a:hover { text-decoration: underline; }
-      .name { font-size: 32px; font-weight: 700; }
-      .papertitle { font-weight: 600; }
-      .highlight { background: #ffffd0; padding: 1px 4px; border-radius: 4px; }
-      .tag { display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 999px; background: #eef3ff; color: #315bd6; margin-left: 6px; vertical-align: middle; }
-      .subtle { color: #666; }
-      .small { font-size: 12px; color: #666; }
-    </style>
-  </head>
+/* sections */
+section{display:flex;flex-direction:column;gap:20px}
+h2{margin:0;font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:14px}
+h2::after{content:"";flex:1;height:1px;background:var(--rule)}
 
-  <body>
-    <table style="width:100%;max-width:900px;border:0;border-spacing:0;border-collapse:separate;margin:0 auto;"><tbody>
-      <tr><td style="padding:0">
+/* publications */
+.pubs{display:flex;flex-direction:column;gap:28px}
+.pub{display:grid;grid-template-columns:200px minmax(0,1fr);gap:24px;align-items:start}
+.thumb{display:block;aspect-ratio:4/3;max-width:100%;background:var(--fig-bg);border:1px solid var(--rule);border-radius:10px;overflow:hidden;padding:8px}
+.thumb img{width:100%;height:100%;object-fit:contain;display:block;transition:transform .25s ease}
+.pub:hover .thumb img{transform:scale(1.04)}
+.pub-body{min-width:0}
+.venue-line{margin:0 0 4px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;font-family:var(--mono);font-size:13px;color:var(--muted)}
+.venue{color:var(--orange);font-weight:500}
+.tag{font-family:var(--sans);font-size:12px;font-weight:500;padding:1px 9px;border-radius:999px;background:var(--blue-soft);color:var(--blue)}
+.pub h3{margin:0 0 6px;font-size:18px;line-height:1.35;font-weight:700;text-wrap:balance}
+.pub h3 a{color:var(--fg)}
+.pub h3 a:hover{color:var(--blue)}
+.authors{margin:0 0 12px;font-size:15px;color:var(--muted)}
+.authors a{color:var(--muted)}
+.authors a:hover{color:var(--blue)}
+.me{color:var(--fg);font-weight:700}
+.links{display:flex;flex-wrap:wrap;gap:8px}
+.drawer{margin-top:12px;padding:14px 16px;background:var(--surface);border-radius:10px;font-size:15px;color:var(--fg)}
+.drawer p{margin:0;max-width:72ch}
+.bib{position:relative;overflow-x:auto}
+.bib pre{margin:0;font:13px/1.55 var(--mono);white-space:pre}
+.copy{position:absolute;top:8px;right:8px;border:1px solid var(--rule);background:var(--card);color:var(--fg);border-radius:6px;padding:3px 10px;font:500 13px var(--sans);cursor:pointer}
 
-        <!-- Header -->
-        <table style="width:100%;border:0;border-spacing:0;border-collapse:separate;margin:0 auto;"><tbody>
-          <tr>
-            <td style="padding:2.5%;width:63%;vertical-align:middle">
-              <p class="name" style="text-align:center">Keren Gruteke Klein</p>
-              <p>
-                Hi! I'm a PhD candidate in Data Science at the <a href="https://www.technion.ac.il/">Technion</a>, advised by <a href="https://dds.technion.ac.il/people/academic-staff/yevgeni-berzak/">Yevgeni Berzak</a> in the Language, Computation and Cognition <a href="https://lacclab.github.io/">(LaCC) Lab</a>.
-              <p> 
-              </p>
-                My research lies at the intersection between <span class="highlight">Natural Language Processing</span> and <span class="highlight">Cognition</span>, focusing on cognitively driven readability and text simplification, and the generation of eye-movement scanpaths during reading.
-              </p>
-              <p>
-                I co-develop <em>EyeBench</em>, a benchmark for predictive modeling from eye movements in reading.
-              </p>
-              <p style="text-align:center">
-                <a href="https://www.linkedin.com/in/keren-gruteke/">LinkedIn</a>
-                &nbsp;/&nbsp;
-                <a href="https://github.com/KerenGruteke">GitHub</a>
-                &nbsp;/&nbsp;
-                <a href="https://scholar.google.com/citations?user=eRv0rbYAAAAJ&hl=en">Scholar</a>
-                &nbsp;/&nbsp;
-                <a href="https://orcid.org/0009-0004-7942-4611">ORCID</a>
-              </p>
-              <p style="text-align:center"></pstyle>
-              💬 Contact me at: 
-                <span>gkeren[at]campus.technion.ac.il</span>
-              </p>
-            </td>
-            <td style="padding:2.5%;width:37%;max-width:37%">
-              <a href="images/KerenGrutekeKlein.jpg"><img alt="profile photo" src="images/KerenGrutekeKlein.jpg" style="width:100%;max-width:100%;object-fit:cover;border-radius:50%" /></a>
-              <!-- <p class="small" style="text-align:center;margin-top:8px">Text</p> -->
-            </td>
-          </tr>
-        </tbody></table>
+/* software */
+.tool{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:center;padding:22px;border:1px solid var(--rule);border-radius:14px;background:var(--card)}
+.tool img{width:100%;height:auto;border-radius:8px;border:1px solid var(--rule);background:var(--fig-bg);display:block}
+.tool h3{margin:0 0 4px;font-size:22px}
+.tool .sub{margin:0 0 10px;font-family:var(--mono);font-size:13px;color:var(--muted)}
+.tool p{margin:0 0 14px}
 
-        <!-- Research blurb -->
-        <table style="width:100%;border:0;border-spacing:0;border-collapse:separate;margin:0 auto"><tbody>
-          <tr>
-            <td style="padding:16px;width:100%;vertical-align:middle">
-              <h2>📚 Publications</h2>
-              <!--<p>I study eye movements in reading, readability, text simplification, and models for cognitive state decoding. I build models that combine gaze and text to understand reading behavior and to generate realistic scanpaths. Some projects below are <span class="highlight">highlighted</span>.</p>-->
-            </td>
-          </tr>
-        </tbody></table>
+/* talks */
+.talks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.talks li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4px 24px;padding:12px 0;border-bottom:1px solid var(--rule)}
+.talks li:first-child{border-top:1px solid var(--rule)}
+.talk-title{font-weight:500}
+.talk-where{color:var(--muted);font-size:15px}
 
-        <!-- Publications (compact, academic-homepage style) -->
-        <table style="width:100%;border:0;border-spacing:0 12px;border-collapse:separate;margin:0 auto"><tbody>
+/* bio */
+.bio{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 40px}
+.bio h3{margin:0 0 8px;font-size:16px}
+.bio ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:15px}
+.bio .when{font-family:var(--mono);font-size:13px;color:var(--muted);white-space:nowrap}
 
-          <!-- Computational Linguistics 2026 (presented at EMNLP 2026) -->
-          <tr onmouseout="pnas_stop()" onmouseover="pnas_start()">
-            <td style="padding:16px;width:20%;vertical-align:middle">
-              <div class="one">
-                <div class="two" id="pnas_image"><img src="images/readability_results.png" width="100%" /></div>
-                <img src="images/readability_results.png" width="100%" />
-              </div>
-              <script>
-                function pnas_start(){ var e=document.getElementById('pnas_image'); if(e) e.style.opacity='1'; }
-                function pnas_stop(){ var e=document.getElementById('pnas_image'); if(e) e.style.opacity='0'; }
-                pnas_stop();
-              </script>
-            </td>
+footer{text-align:center;color:var(--muted);font-size:14px;padding-block:8px 32px}
 
-            <td style="padding:8px;width:80%;vertical-align:middle">
-              <a href="https://doi.org/10.1162/COLI.a.649">
-                <span class="papertitle">Eye Tracking Based Cognitive Evaluation of Automatic Readability Assessment Methods</span>
-              </a>
-              <br>
-              <strong><a href="https://kerengruteke.github.io/">K. Gruteke Klein</a></strong>, 
-              S. Frenkel, 
-              <a href="https://omershubi.github.io/">O. Shubi</a>, 
-              <a href="https://dds.technion.ac.il/people/academic-staff/yevgeni-berzak/">Y. Berzak</a>
-              <br>
-              <em>Computational Linguistics</em>, 2026 <span class="tag">Presented at EMNLP 2026</span>
-              <br>
+@media (max-width:720px){
+  .wrap{padding-block:32px 24px;gap:48px}
+  .hero{grid-template-columns:minmax(0,1fr)}
+  .hero .photo{order:-1}
+  .portrait{width:150px;height:150px}
+  .hero h1{font-size:34px}
+  .pub{grid-template-columns:minmax(0,1fr);gap:12px}
+  .thumb{max-width:320px}
+  .tool{grid-template-columns:minmax(0,1fr)}
+  .talks li,.bio{grid-template-columns:minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:reduce){.thumb img{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
 
-              <!-- links -->
-              <a href="https://doi.org/10.1162/COLI.a.649" class="btn">Paper</a> /
-              <a href="https://lacclab.github.io/Readability-Evaluation-Using-Reading-Ease-Landing/" class="btn">Project Page</a> /
-              <a href="https://github.com/lacclab/Readability-Evaluation-Using-Reading-Ease" class="btn">Code</a> /
-              <a href="javascript:void(0)" onclick="showCite('pnas2025')" class="btn">Cite</a>
+  <header class="hero">
+    <div>
+      <h1>Keren Gruteke Klein</h1>
+      <svg class="trace" viewBox="0 0 420 34" role="img" aria-label="A reading scanpath: fixations moving left to right, with one regression">
+        <path class="sacc" d="M8 20 L58 18 L104 21 L162 17 L214 20"/>
+        <path class="reg" d="M214 20 C190 4 160 4 140 14"/>
+        <path class="sacc" d="M140 14 L262 19 L318 17 L372 20 L410 18"/>
+        <circle class="fix" cx="8" cy="20" r="3.5"/><circle class="fix" cx="58" cy="18" r="6"/><circle class="fix" cx="104" cy="21" r="4"/>
+        <circle class="fix" cx="162" cy="17" r="7"/><circle class="fix" cx="214" cy="20" r="5"/><circle class="fix o" cx="140" cy="14" r="4.5"/>
+        <circle class="fix" cx="262" cy="19" r="5.5"/><circle class="fix" cx="318" cy="17" r="3.5"/><circle class="fix" cx="372" cy="20" r="6.5"/><circle class="fix" cx="410" cy="18" r="4"/>
+      </svg>
+      <p class="role">PhD candidate in Data Science · Technion · <a href="https://lacclab.github.io/">LaCC Lab</a></p>
+      <p>I'm advised by <a href="https://dds.technion.ac.il/people/academic-staff/yevgeni-berzak/">Yevgeni Berzak</a> in the <a href="https://lacclab.github.io/">Language, Computation and Cognition Lab</a>. My research lies at the intersection of <span class="hl o">Natural Language Processing</span> and <span class="hl">Cognition</span>, focusing on cognitively driven readability and text simplification, and the generation of eye-movement scanpaths during reading.</p>
+      <p>I co-develop <a href="https://eyebench.github.io/">EyeBench</a>, a benchmark for predictive modeling from eye movements in reading, and contribute to <a href="#software">Scanpath Studio</a>, our lab's tool for visualizing reading.</p>
+      <div class="contact">
+        <a class="pill" href="https://scholar.google.com/citations?user=eRv0rbYAAAAJ&amp;hl=en"><svg class="brand" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></svg>Scholar</a>
+        <a class="pill" href="https://github.com/KerenGruteke"><svg class="brand" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>GitHub</a>
+        <a class="pill" href="https://www.linkedin.com/in/keren-gruteke/"><svg class="brand" viewBox="0 0 24 24" aria-hidden="true"><path fill="#0A66C2" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
+        <a class="pill" href="https://orcid.org/0009-0004-7942-4611"><svg class="brand" viewBox="0 0 24 24" aria-hidden="true"><path fill="#A6CE39" d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947s-.422.947-.947.947a.95.95 0 0 1-.947-.947c0-.525.422-.947.947-.947zm-.722 3.038h1.444v10.041H6.647V7.416zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.025-5.325 5.025h-3.919V7.416zm1.444 1.303v7.444h2.297c3.272 0 4.022-2.484 4.022-3.722 0-2.016-1.284-3.722-4.097-3.722h-2.222z"/></svg>ORCID</a>
+      </div>
+      <p class="email">gkeren [at] campus.technion.ac.il</p>
+    </div>
+    <div class="photo"><a href="images/KerenGrutekeKlein.jpg"><img class="portrait" src="images/profile.jpg" alt="Photo of Keren Gruteke Klein"></a></div>
+  </header>
 
-              <p class="subtle" style="margin:6px 0 0">
-                Automatic methods for scoring text readability have been studied for over a century, and are widely used in research and in user-facing applications in many domains. Thus far, the development and evaluation of such methods have primarily relied on two types of offline human behavioral data, performance on reading comprehension tests and ratings of text readability levels. In this work, we instead focus on a fundamental and understudied aspect of readability, real-time reading ease, captured with online reading measures using eye tracking. We introduce a new cognitive evaluation framework for readability scoring methods that quantifies their ability to account for reading ease, while controlling for content variation across texts. Applying this evaluation to prominent traditional readability formulas, NLP-based methods, commercial systems used in education, and frontier LLMs suggests that they are all poor predictors of English reading ease in adults as compared to word properties commonly used in psycholinguistics for the prediction of reading times. This outcome holds across L1 and L2 speakers, different reading regimes, and textual units of different lengths. Our results reveal an important limitation of a wide range of methods for readability scoring, highlight the utility of real-time behavioral benchmarks for readability research, and call for new, cognitively driven readability scoring approaches that can better account for how humans experience texts in real time.
-              </p>
+  <section aria-labelledby="pubs-h">
+    <h2 id="pubs-h">Publications</h2>
+    <div class="pubs">
+      <article class="pub" id="cl2026">
+        <a class="thumb" href="https://lacclab.github.io/Readability-Evaluation-Using-Reading-Ease-Landing/" tabindex="-1" aria-hidden="true"><img src="images/readability_results.png" alt="" loading="lazy"></a>
+        <div class="pub-body">
+          <p class="venue-line"><span class="venue"><em>Computational Linguistics</em>, 2026</span><span class="tag">Presented at EMNLP 2026</span></p>
+          <h3><a href="https://doi.org/10.1162/COLI.a.649">Eye Tracking Based Cognitive Evaluation of Automatic Readability Assessment Methods</a></h3>
+          <p class="authors"><span class="me">K. Gruteke Klein</span>, S. Frenkel, <a href="https://omershubi.github.io/">O. Shubi</a>, <a href="https://dds.technion.ac.il/people/academic-staff/yevgeni-berzak/">Y. Berzak</a></p>
+          <p class="tldr"><span class="tldr-label">TL;DR</span><span class="k-orange">Readability scores</span>, from 1948 formulas to frontier LLMs, are poor predictors of <span class="k-blue">reading ease</span> measured with eye tracking. Word properties such as surprisal do better.</p>
+          <div class="links"><a class="pill" href="data/2026_readability_CL.pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/><path d="M10 13h4M10 17h4"/></svg>PDF</a><a class="pill" href="https://doi.org/10.1162/COLI.a.649"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/></svg>Paper</a><a class="pill" href="https://lacclab.github.io/Readability-Evaluation-Using-Reading-Ease-Landing/"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg>Project Page</a><a class="pill" href="https://github.com/lacclab/Readability-Evaluation-Using-Reading-Ease"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5"/></svg>Code</a>
+            <button class="pill ghost" type="button" data-toggle="abs-cl2026" aria-expanded="false" aria-controls="abs-cl2026">Abstract</button>
+            <button class="pill ghost" type="button" data-toggle="bib-cl2026" aria-expanded="false" aria-controls="bib-cl2026">Cite</button>
+          </div>
+          <div class="drawer" id="abs-cl2026" hidden><p><span class="k-orange">Automatic methods for scoring text readability</span> have been studied for over a century, and are widely used in research and in user-facing applications in many domains. Thus far, the development and evaluation of such methods have primarily relied on two types of offline human behavioral data, performance on reading comprehension tests and ratings of text readability levels. In this work, we instead focus on a fundamental and understudied aspect of readability, <span class="k-blue">real-time reading ease</span>, captured with <span class="k-blue">online reading measures using eye tracking</span>. We introduce a new cognitive evaluation framework for <span class="k-orange">readability scoring methods</span> that quantifies their ability to <span class="k-blue">account for reading ease</span>, while controlling for content variation across texts. Applying this evaluation to prominent <span class="k-orange">traditional readability formulas, NLP-based methods, commercial systems used in education, and frontier LLMs</span> suggests that they are all poor predictors of <span class="k-blue">English reading ease</span> in adults as compared to word properties commonly used in psycholinguistics for the prediction of reading times. This outcome holds across L1 and L2 speakers, different reading regimes, and textual units of different lengths. Our results reveal an important limitation of a wide range of <span class="k-orange">methods for readability scoring</span>, highlight the utility of <span class="k-blue">real-time behavioral benchmarks</span> for readability research, and call for new, cognitively driven readability scoring approaches that can better account for how humans experience texts in real time.</p></div>
+          <div class="drawer bib" id="bib-cl2026" hidden><button class="copy" type="button">Copy</button><pre>@article{grutekeklein2026eye,
+  title={Eye Tracking Based Cognitive Evaluation of Automatic Readability Assessment Methods},
+  author={Gruteke Klein, Keren and Frenkel, Shachar and Shubi, Omer and Berzak, Yevgeni},
+  journal={Computational Linguistics},
+  year={2026},
+  doi={10.1162/COLI.a.649},
+  url={https://doi.org/10.1162/COLI.a.649}
+}</pre></div>
+        </div>
+      </article>
+      <article class="pub" id="eyebench2025">
+        <a class="thumb" href="https://eyebench.github.io/" tabindex="-1" aria-hidden="true"><img src="images/eyebench_before.png" alt="" loading="lazy"></a>
+        <div class="pub-body">
+          <p class="venue-line"><span class="venue"><em>NeurIPS</em>, 2025</span><span class="tag">Benchmark</span></p>
+          <h3><a href="https://openreview.net/forum?id=LhbYJJ3MFd">EyeBench: Predictive Modeling from Eye Movements in Reading</a></h3>
+          <p class="authors"><a href="https://omershubi.github.io/">O. Shubi</a>, <a href="https://www.cl.uzh.ch/en/research-groups/digital-linguistics/people/lab-members/reich.html">D. R. Reich</a>, <span class="me">K. Gruteke Klein</span>, <a href="http://www.linkedin.com/in/yuval-angel-74346a1a4">Y. Angel</a>, <a href="https://www.uni-potsdam.de/de/cs-ml/staff/phd/prasse">P. Prasse</a>, <a href="https://www.cl.uzh.ch/en/research-groups/digital-linguistics/people/group-leader/jaeger.html">L. A. Jäger</a>, <a href="https://dds.technion.ac.il/people/academic-staff/yevgeni-berzak/">Y. Berzak</a></p>
+          <p class="tldr"><span class="tldr-label">TL;DR</span>A benchmark for <span class="k-orange">predictive models</span> that decode cognitive and linguistic information from <span class="k-blue">eye movements in reading</span>, across datasets and tasks.</p>
+          <div class="links"><a class="pill" href="https://openreview.net/pdf?id=LhbYJJ3MFd"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/><path d="M10 13h4M10 17h4"/></svg>PDF</a><a class="pill" href="https://openreview.net/forum?id=LhbYJJ3MFd"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/></svg>Paper</a><a class="pill" href="https://eyebench.github.io/"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg>Project Page</a><a class="pill" href="https://github.com/EyeBench/eyebench"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5"/></svg>Code</a>
+            <button class="pill ghost" type="button" data-toggle="abs-eyebench2025" aria-expanded="false" aria-controls="abs-eyebench2025">Abstract</button>
+            <button class="pill ghost" type="button" data-toggle="bib-eyebench2025" aria-expanded="false" aria-controls="bib-eyebench2025">Cite</button>
+          </div>
+          <div class="drawer" id="abs-eyebench2025" hidden><p>We present EyeBench, the first benchmark designed to <span class="k-orange">evaluate machine learning models</span> that decode cognitive and linguistic information from <span class="k-blue">eye movements during reading</span>. EyeBench offers an accessible entry point to the challenging and underexplored domain of modeling <span class="k-blue">eye tracking data paired with text</span>, aiming to foster innovation at the intersection of multimodal AI and cognitive science. The benchmark provides a <span class="k-orange">standardized evaluation framework for predictive models</span>, covering a diverse set of datasets and tasks, ranging from assessment of reading comprehension to detection of developmental dyslexia. Progress on the EyeBench challenge will pave the way for both practical real-world applications, such as adaptive user interfaces and personalized education, and scientific advances in understanding human language processing. The benchmark is released as an open-source software package which includes data downloading and harmonization scripts, <span class="k-orange">baselines and state-of-the-art models</span>, as well as evaluation code, publicly available at https://github.com/EyeBench/eyebench.</p></div>
+          <div class="drawer bib" id="bib-eyebench2025" hidden><button class="copy" type="button">Copy</button><pre>@inproceedings{shubireich2025eyebench,
+  title={{EyeBench}: {P}redictive Modeling from Eye Movements in Reading},
+  author={Shubi, Omer and Reich, David Robert and Gruteke Klein, Keren and Angel, Yuval and Prasse, Paul and J{\"a}ger, Lena Ann and Berzak, Yevgeni},
+  booktitle={The Thirty-ninth Annual Conference on Neural Information Processing Systems Datasets and Benchmarks Track},
+  year={2025},
+  url={https://openreview.net/forum?id=LhbYJJ3MFd}
+}</pre></div>
+        </div>
+      </article>
+      <article class="pub" id="cogsci2025">
+        <a class="thumb" href="https://lacclab.github.io/Text-Simplification-Effects-Landing/" tabindex="-1" aria-hidden="true"><img src="images/cogsci_before.png" alt="" loading="lazy"></a>
+        <div class="pub-body">
+          <p class="venue-line"><span class="venue"><em>CogSci</em>, 2025</span><span class="tag">Oral</span></p>
+          <h3><a href="https://escholarship.org/uc/item/3tb1553f">The Effect of Text Simplification on Reading Fluency and Reading Comprehension in L1 English Speakers</a></h3>
+          <p class="authors"><span class="me">K. Gruteke Klein</span>, <a href="https://omershubi.github.io/">O. Shubi</a>, S. Frenkel, <a href="https://dds.technion.ac.il/people/academic-staff/yevgeni-berzak/">Y. Berzak</a></p>
+          <p class="tldr"><span class="tldr-label">TL;DR</span><span class="k-green">Simplified</span> texts are read more fluently by <span class="k-blue">42%</span> of L1 readers, but only 2% improve their comprehension.</p>
+          <div class="links"><a class="pill" href="data/2025_simplification_effects.pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/><path d="M10 13h4M10 17h4"/></svg>PDF</a><a class="pill" href="https://escholarship.org/uc/item/3tb1553f"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/></svg>Paper</a><a class="pill" href="https://lacclab.github.io/Text-Simplification-Effects-Landing/"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg>Project Page</a><a class="pill" href="https://github.com/lacclab/text-simplification-effects-eye-movements"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5"/></svg>Code</a>
+            <button class="pill ghost" type="button" data-toggle="abs-cogsci2025" aria-expanded="false" aria-controls="abs-cogsci2025">Abstract</button>
+            <button class="pill ghost" type="button" data-toggle="bib-cogsci2025" aria-expanded="false" aria-controls="bib-cogsci2025">Cite</button>
+          </div>
+          <div class="drawer" id="abs-cogsci2025" hidden><p><span class="k-green">Text simplification</span> is a common practice for making texts easier to read and easier to understand. To which extent does it achieve these goals, and which participant and text characteristics drive simplification benefits? In this work, we use <span class="k-blue">eye tracking</span> to address these questions for the first time for the population of adult native (L1) English speakers. We find that 42% of the readers exhibit <span class="k-blue">reading facilitation effects</span>, while only 2% improve reading comprehension accuracy. We further observe that <span class="k-blue">reading fluency benefits</span> are larger for slower and less experienced readers, while comprehension benefits are more substantial in lower comprehension readers, but not vice versa. Finally, we find that <span class="k-red">high-complexity original texts</span> are key for <span class="k-blue">enhancing reading fluency</span>, while <span class="k-green">large complexity reduction</span> is more pertinent to improving comprehension. Our study highlights the potential of cognitive measures in the evaluation of text simplification and distills empirically driven principles for enhancing <span class="k-green">simplification effectiveness</span>.</p></div>
+          <div class="drawer bib" id="bib-cogsci2025" hidden><button class="copy" type="button">Copy</button><pre>@inproceedings{gruteke2025effect,
+  title={The effect of text simplification on reading fluency and reading comprehension in L1 English speakers},
+  author={Gruteke Klein, Keren and Shubi, Omer and Frenkel, Shachar and Berzak, Yevgeni},
+  booktitle={Proceedings of the Annual Meeting of the Cognitive Science Society},
+  volume={47},
+  year={2025}
+}</pre></div>
+        </div>
+      </article>
+      <article class="pub" id="conll2024">
+        <a class="thumb" href="https://lacclab.github.io/Surprisal-Reading-Regimes-Landing/" tabindex="-1" aria-hidden="true"><img src="images/conll_before.png" alt="" loading="lazy"></a>
+        <div class="pub-body">
+          <p class="venue-line"><span class="venue"><em>CoNLL</em>, 2024</span><span class="tag">Oral</span><span class="tag">20% acceptance</span></p>
+          <h3><a href="https://aclanthology.org/2024.conll-1.17/">The Effect of Surprisal on Reading Times in Information Seeking and Repeated Reading</a></h3>
+          <p class="authors"><span class="me">K. Gruteke Klein</span>, <a href="https://yoavmeiri.github.io/">Y. Meiri</a>, <a href="https://omershubi.github.io/">O. Shubi</a>, <a href="https://dds.technion.ac.il/people/academic-staff/yevgeni-berzak/">Y. Berzak</a></p>
+          <p class="tldr"><span class="tldr-label">TL;DR</span>The linear effect of <span class="k-orange">surprisal</span> on <span class="k-blue">reading times</span> holds in information seeking and repeated reading, but regime-specific contexts do not improve language-model surprisal estimates.</p>
+          <div class="links"><a class="pill" href="https://aclanthology.org/2024.conll-1.17.pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/><path d="M10 13h4M10 17h4"/></svg>PDF</a><a class="pill" href="https://aclanthology.org/2024.conll-1.17/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/></svg>Paper</a><a class="pill" href="https://lacclab.github.io/Surprisal-Reading-Regimes-Landing/"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg>Project Page</a><a class="pill" href="https://github.com/lacclab/surprisal-non-ordinary-reading"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5"/></svg>Code</a><a class="pill" href="data/2025_ACL_L2M2_poster.pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>Poster</a>
+            <button class="pill ghost" type="button" data-toggle="abs-conll2024" aria-expanded="false" aria-controls="abs-conll2024">Abstract</button>
+            <button class="pill ghost" type="button" data-toggle="bib-conll2024" aria-expanded="false" aria-controls="bib-conll2024">Cite</button>
+          </div>
+          <div class="drawer" id="abs-conll2024" hidden><p><span class="k-orange">The effect of surprisal</span> on processing difficulty has been a central topic of investigation in psycholinguistics. Here, we use <span class="k-blue">eyetracking data</span> to examine three language processing regimes that are common in daily life but have not been addressed with respect to this question: information seeking, repeated processing, and the combination of the two. Using standard <span class="k-orange">regime-agnostic surprisal estimates</span> we find that the prediction of surprisal theory regarding the presence of a linear effect of surprisal on <span class="k-blue">processing times,</span> extends to these regimes. However, when using <span class="k-orange">surprisal estimates from regime-specific contexts</span> that match the contexts and tasks given to humans, we find that in information seeking, such estimates do not improve the predictive power of processing times compared to standard surprisals. Further, regime-specific contexts yield <span class="k-orange">near zero surprisal estimates</span> with no predictive power for processing times in repeated reading. These findings point to misalignments of task and memory representations between humans and <span class="k-orange">current language models</span>, and question the extent to which such models can be used for estimating cognitively relevant quantities. We further discuss theoretical challenges posed by these results.</p></div>
+          <div class="drawer bib" id="bib-conll2024" hidden><button class="copy" type="button">Copy</button><pre>@inproceedings{klein-etal-2024-effect,
+  title = {The Effect of Surprisal on Reading Times in Information Seeking and Repeated Reading},
+  author = {Gruteke Klein, Keren and Meiri, Yoav and Shubi, Omer and Berzak, Yevgeni},
+  editor = {Barak, Libby and Alikhani, Malihe},
+  booktitle = {Proceedings of the 28th Conference on Computational Natural Language Learning},
+  month = nov,
+  year = {2024},
+  address = {Miami, FL, USA},
+  publisher = {Association for Computational Linguistics},
+  url = {https://aclanthology.org/2024.conll-1.17/},
+  doi = {10.18653/v1/2024.conll-1.17},
+  pages = {219--230}
+}</pre></div>
+        </div>
+      </article>
+    </div>
+  </section>
 
-              <!-- hidden BibTeX citation -->
-              <div id="cite-pnas2025" class="cite-box" style="display:none">
-                <pre>@article{grutekeklein2026eye,
-            title={Eye Tracking Based Cognitive Evaluation of Automatic Readability Assessment Methods},
-            author={Gruteke Klein, Keren and Frenkel, Shachar and Shubi, Omer and Berzak, Yevgeni},
-            journal={Computational Linguistics},
-            year={2026},
-            doi={10.1162/COLI.a.649},
-            url={https://doi.org/10.1162/COLI.a.649}
-          }</pre>
-                <button onclick="hideCite('pnas2025')">Close</button>
-              </div>
-            </td>
-          </tr>
-          
-          <!-- EyeBench (NeurIPS 2025) -->
-          <!--  <tr onmouseout="eyebench_stop()" onmouseover="eyebench_start()" bgcolor="#ffffd0"></tr> -->
-          <tr onmouseout="eyebench_stop()" onmouseover="eyebench_start()">
-            <td style="padding:16px;width:20%;vertical-align:middle">
-              <div class="one">
-                <div class="two" id="eyebench_image">
-                  <img src="images/eyebench_before.png" width="100%" />
-                </div>
-                <img src="images/eyebench_before.png" width="100%" />
-              </div>
-              <script>
-                function eyebench_start(){ var e=document.getElementById('eyebench_image'); if(e) e.style.opacity='1'; }
-                function eyebench_stop(){ var e=document.getElementById('eyebench_image'); if(e) e.style.opacity='0'; }
-                eyebench_stop();
-              </script>
-            </td>
+  <section id="software" aria-labelledby="sw-h">
+    <h2 id="sw-h">Software</h2>
+    <article class="tool">
+      <a href="https://lacclab.github.io/scanpath-studio/"><img src="images/scanpath_studio.png" alt="Two readers' scanpaths overlaid on the same paragraph in Scanpath Studio" loading="lazy"></a>
+      <div>
+        <h3>Scanpath Studio</h3>
+        <p class="sub">LaCC Lab · open source · pip install scanpath-studio</p>
+        <p>An app that shows how people read. Load eye-tracking-while-reading data, replay each trial over the text, compare participants, analyze a corpus and export figures for papers and talks.</p>
+        <div class="links">
+          <a class="pill" href="https://scanpath-studio.streamlit.app"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Live Demo</a>
+          <a class="pill" href="https://lacclab.github.io/scanpath-studio/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M8 7h6"/></svg>Docs</a>
+          <a class="pill" href="https://github.com/lacclab/scanpath-studio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5"/></svg>Code</a>
+          <a class="pill" href="https://pypi.org/project/scanpath-studio/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 7.5v9L12 21l8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/></svg>PyPI</a>
+        </div>
+      </div>
+    </article>
+  </section>
 
-            <td style="padding:8px;width:80%;vertical-align:middle">
-              <a href="https://eyebench.github.io/">
-                <span class="papertitle">EyeBench: Predictive Modeling from Eye Movements in Reading</span>
-              </a>
-              <br>
-              <a href="https://omershubi.github.io/">O. Shubi</a>, 
-              <a href="https://www.cl.uzh.ch/en/research-groups/digital-linguistics/people/lab-members/reich.html">D. R. Reich</a>, 
-              <strong><a href="https://kerengruteke.github.io/">K. Gruteke Klein</a></strong>, 
-              <a href="http://www.linkedin.com/in/yuval-angel-74346a1a4">Y. Angel</a>, 
-              <a href="https://www.uni-potsdam.de/de/cs-ml/staff/phd/prasse">P. Prasse</a>, 
-              <a href="https://www.cl.uzh.ch/en/research-groups/digital-linguistics/people/group-leader/jaeger.html">L. A. Jäger</a>, 
-              <a href="https://dds.technion.ac.il/people/academic-staff/yevgeni-berzak/">Y. Berzak</a>
-              <br>
-              <em>NeurIPS</em>, 2025 <span class="tag">Benchmark</span>
-              <br>
+  <section aria-labelledby="talks-h">
+    <h2 id="talks-h">Talks &amp; Presentations</h2>
+    <ul class="talks">
+        <li><span class="talk-title">Eye Tracking Based Cognitive Evaluation of Automatic Readability Assessment Methods</span><span class="talk-where">Oral at EMNLP 2026 (Computational Linguistics paper). <a href="https://lacclab.github.io/Readability-Evaluation-Using-Reading-Ease-Landing/">Project Page</a></span></li>
+        <li><span class="talk-title">EyeBench</span><span class="talk-where">Poster at EurIPS 2025, Copenhagen.</span></li>
+        <li><span class="talk-title">Text Readability Measures Do Not Predict Reading Ease</span><span class="talk-where">Spotlight poster at CPL 2025, Utrecht.</span></li>
+        <li><span class="talk-title">Individual Differences in Text Simplification Effects in L1 English Speakers</span><span class="talk-where">Oral at IndiREAD 2025, Saarbrücken.</span></li>
+        <li><span class="talk-title">The Effect of Surprisal on Reading Times in Information Seeking and Repeated Reading</span><span class="talk-where">Poster at the L2M2 Workshop (LLM Memorization), ACL 2025, Vienna. <a href="data/2025_ACL_L2M2_poster.pdf">Poster</a></span></li>
+        <li><span class="talk-title">Text Simplification Effects on Reading Fluency and Reading Comprehension</span><span class="talk-where">Oral at CogSci 2025, San Francisco (Hybrid) and at the Multipleye Workshop 2025, Stuttgart.</span></li>
+        <li><span class="talk-title">Surprisal & Reading Times</span><span class="talk-where">Oral at CoNLL 2024, Miami; Poster at ISCOL 2024, Haifa.</span></li>
+        </ul>
+  </section>
 
-              <!-- links -->
-              <a href="https://eyebench.github.io/" class="btn">Project Page</a> /
-              <!-- <a href="https://arxiv.org/abs/2510.00000" class="btn">arXiv</a> / -->
-              <a href="javascript:void(0)" onclick="showCite('eyebench')" class="btn">Cite</a>
+  <section aria-labelledby="bio-h">
+    <h2 id="bio-h">Bio</h2>
+    <div class="bio">
+      <div><h3>Education</h3><ul>
+        <li>PhD (Direct Track) in Data Science, Technion <span class="when">2025–present</span></li>
+        <li>MSc (Direct Track) in Data Science, Technion <span class="when">2024–2025</span></li>
+        <li>BSc in Data Science &amp; Engineering, Technion <span class="when">2020–2024</span></li>
+      </ul></div>
+      <div><h3>Awards</h3><ul>
+        <li><a href="https://www.edrf.org.il/en/programs/1703/">Ariane de Rothschild Women Doctoral Scholarship</a></li>
+        <li>VATAT Scholarship for Outstanding MSc Students</li>
+      </ul></div>
+      <div><h3>Teaching</h3><ul>
+        <li>TA, Language, Computation &amp; Cognition (0960222)</li>
+        <li>TA, Cognition in Information Visualization (0960625)</li>
+        <li>TA, Intelligent Interactive Systems (00960235)</li>
+      </ul></div>
+      <div><h3>Industry</h3><ul>
+        <li>Data Scientist at Wiliot <span class="when">2022–2024</span></li>
+      </ul></div>
+    </div>
+  </section>
 
-              <p class="subtle" style="margin:6px 0 0">
-                We present EyeBench, the first benchmark designed to evaluate machine learning
-models that decode cognitive and linguistic information from eye movements
-during reading. EyeBench offers an accessible entry point to the challenging and
-underexplored domain of modeling eye tracking data paired with text, aiming to
-foster innovation at the intersection of multimodal AI and cognitive science. The
-benchmark provides a standardized evaluation framework for predictive models,
-covering a diverse set of datasets and tasks, ranging from assessment of reading
-comprehension to detection of developmental dyslexia. Progress on the EyeBench
-challenge will pave the way for both practical real-world applications, such as
-adaptive user interfaces and personalized education, and scientific advances in
-understanding human language processing. The benchmark is released as an opensource software package which includes data downloading and harmonization
-scripts, baselines and state-of-the-art models, as well as evaluation code, publicly
-available at https://github.com/EyeBench/eyebench.
-              </p>
-
-              <!-- hidden BibTeX citation -->
-              <div id="cite-eyebench" class="cite-box" style="display:none">
-                <pre>@inproceedings{shubieyebench,
-            title={EyeBench: Predictive Modeling from Eye Movements in Reading},
-            author={Shubi, Omer and Reich, David Robert and Gruteke Klein, Keren and Angel, Yuval and Prasse, Paul and J{\"a}ger, Lena Ann and Berzak, Yevgeni},
-            booktitle={The Thirty-ninth Annual Conference on Neural Information Processing Systems Datasets and Benchmarks Track}
-          }</pre>
-                <button onclick="hideCite('eyebench')">Close</button>
-              </div>
-            </td>
-          </tr>
-
-          <script>
-          function showCite(id){ document.getElementById('cite-'+id).style.display='block'; }
-          function hideCite(id){ document.getElementById('cite-'+id).style.display='none'; }
-          </script>
-
-
-          <!-- CogSci 2025 -->
-          <tr onmouseout="cogsci_stop()" onmouseover="cogsci_start()">
-            <td style="padding:16px;width:20%;vertical-align:middle">
-              <div class="one">
-                <div class="two" id="cogsci_image"><img src="images/cogsci_before.png" width="100%" /></div>
-                <img src="images/cogsci_before.png" width="100%" />
-              </div>
-              <script>
-                function cogsci_start(){ var e=document.getElementById('cogsci_image'); if(e) e.style.opacity='1'; }
-                function cogsci_stop(){ var e=document.getElementById('cogsci_image'); if(e) e.style.opacity='0'; }
-                cogsci_stop();
-              </script>
-            </td>
-
-            <td style="padding:8px;width:80%;vertical-align:middle">
-              <a href="https://osf.io/preprints/psyarxiv/dhk8c_v2">
-                <span class="papertitle">The Effect of Text Simplification on Reading Fluency and Reading Comprehension in L1 English Speakers</span>
-              </a>
-              <br>
-              <strong><a href="https://kerengruteke.github.io/">K. Gruteke Klein</a></strong>, 
-              <a href="https://omershubi.github.io/">O. Shubi</a>, 
-              S. Frenkel, 
-              <a href="https://dds.technion.ac.il/people/academic-staff/yevgeni-berzak/">Y. Berzak</a>
-              <br>
-              <em>CogSci</em>, 2025 <span class="tag">Oral</span>
-              <br>
-
-              <!-- links -->
-              <a href="/data/2025_simplification_effects.pdf" class="btn">PDF</a> /
-              <a href="https://escholarship.org/uc/item/3tb1553f" class="btn">Paper</a> /
-              <a href="https://lacclab.github.io/Text-Simplification-Effects-Landing/" class="btn">Project Page</a> /
-              <a href="https://github.com/lacclab/text-simplification-effects-eye-movements" class="btn">Code</a> /
-              <a href="javascript:void(0)" onclick="showCite('cogsci2025')" class="btn">Cite</a>
-
-              <p class="subtle" style="margin:6px 0 0">
-                Text simplification is a common practice for making texts easier to read and easier to understand. To which extent does it
-achieve these goals, and which participant and text characteristics drive simplification benefits? In this work, we use eye
-tracking to address these questions for the first time for the population of adult native (L1) English speakers. We find that 42%
-of the readers exhibit reading facilitation effects, while only
-2% improve reading comprehension accuracy. We further observe that reading fluency benefits are larger for slower and less
-experienced readers, while comprehension benefits are more
-substantial in lower comprehension readers, but not vice versa.
-Finally, we find that high-complexity original texts are key for
-enhancing reading fluency, while large complexity reduction is
-more pertinent to improving comprehension. Our study highlights the potential of cognitive measures in the evaluation of
-text simplification and distills empirically driven principles for
-enhancing simplification effectiveness.
-              </p>
-
-              <!-- hidden BibTeX citation -->
-              <div id="cite-cogsci2025" class="cite-box" style="display:none">
-                <pre>@inproceedings{gruteke2025effect,
-            title={The effect of text simplification on reading fluency and reading comprehension in L1 English speakers},
-            author={Gruteke Klein, Keren and Shubi, Omer and Frenkel, Shachar and Berzak, Yevgeni},
-            booktitle={Proceedings of the Annual Meeting of the Cognitive Science Society},
-            volume={47},
-            year={2025}
-          }</pre>
-                <button onclick="hideCite('cogsci2025')">Close</button>
-              </div>
-            </td>
-          </tr>
-
-
-          <!-- CoNLL 2024 -->
-          <tr onmouseout="conll_stop()" onmouseover="conll_start()">
-            <td style="padding:16px;width:20%;vertical-align:middle">
-              <div class="one">
-                <div class="two" id="conll_image"><img src="images/conll_before.png" width="100%" /></div>
-                <img src="images/conll_before.png" width="100%" />
-              </div>
-              <script>
-                function conll_start(){ var e=document.getElementById('conll_image'); if(e) e.style.opacity='1'; }
-                function conll_stop(){ var e=document.getElementById('conll_image'); if(e) e.style.opacity='0'; }
-                conll_stop();
-              </script>
-            </td>
-
-            <td style="padding:8px;width:80%;vertical-align:middle">
-              <a href="https://aclanthology.org/2024.conll-1.17/">
-                <span class="papertitle">The Effect of Surprisal on Reading Times in Information Seeking and Repeated Reading</span>
-              </a>
-              <br>
-              <strong><a href="https://kerengruteke.github.io/">K. Gruteke Klein</a></strong>, 
-              <a href="https://yoavmeiri.github.io/">Y. Meiri</a>, 
-              <a href="https://omershubi.github.io/">O. Shubi</a>, 
-              <a href="https://dds.technion.ac.il/people/academic-staff/yevgeni-berzak/">Y. Berzak</a>
-              <br>
-              <em>CoNLL</em>, 2024 <span class="tag">Oral</span> <span class="tag">20% acceptance</span>
-              <br>
-
-              <!-- links -->
-              <a href="/data/2024_surprisal.pdf" class="btn">PDF</a> /
-              <a href="https://aclanthology.org/2024.conll-1.17/" class="btn">Paper</a> /
-              <a href="https://lacclab.github.io/Surprisal-Reading-Regimes-Landing/" class="btn">Project Page</a> /
-              <a href="https://github.com/lacclab/surprisal-non-ordinary-reading" class="btn">Code</a> /
-              <a href="javascript:void(0)" onclick="showCite('conll2024')" class="btn">Cite</a>
-
-              <p class="subtle" style="margin:6px 0 0">
-                The effect of surprisal on processing difficulty
-has been a central topic of investigation in psycholinguistics. Here, we use eyetracking data
-to examine three language processing regimes
-that are common in daily life but have not been
-addressed with respect to this question: information seeking, repeated processing, and the
-combination of the two. Using standard regimeagnostic surprisal estimates we find that the prediction of surprisal theory regarding the presence of a linear effect of surprisal on processing times, extends to these regimes. However,
-when using surprisal estimates from regimespecific contexts that match the contexts and
-tasks given to humans, we find that in information seeking, such estimates do not improve the
-predictive power of processing times compared
-to standard surprisals. Further, regime-specific
-contexts yield near zero surprisal estimates with
-no predictive power for processing times in repeated reading. These findings point to misalignments of task and memory representations
-between humans and current language models,
-and question the extent to which such models
-can be used for estimating cognitively relevant
-quantities. We further discuss theoretical challenges posed by these results.
-              </p>
-
-              <!-- hidden BibTeX citation -->
-              <div id="cite-conll2024" class="cite-box" style="display:none">
-                <pre>@inproceedings{klein-etal-2024-effect,
-            title = {The Effect of Surprisal on Reading Times in Information Seeking and Repeated Reading},
-            author = {Gruteke Klein, Keren and Meiri, Yoav and Shubi, Omer and Berzak, Yevgeni},
-            editor = {Barak, Libby and Alikhani, Malihe},
-            booktitle = {Proceedings of the 28th Conference on Computational Natural Language Learning},
-            month = nov,
-            year = {2024},
-            address = {Miami, FL, USA},
-            publisher = {Association for Computational Linguistics},
-            url = {https://aclanthology.org/2024.conll-1.17/},
-            doi = {10.18653/v1/2024.conll-1.17},
-            pages = {219--230}
-          }</pre>
-                <button onclick="hideCite('conll2024')">Close</button>
-              </div>
-            </td>
-          </tr>
-
-
-
-        </tbody></table>
-
-        <!-- Talks / Presentations (compact) -->
-        <table style="width:100%;border:0;border-spacing:0;border-collapse:separate;margin:12px auto 0"><tbody>
-          <tr>
-            <td style="padding:16px;width:100%;vertical-align:middle">
-              <h2>Talks & Presentations</h2>
-              <ul style="margin-top:0">
-                <li><strong>Eye Tracking Based Cognitive Evaluation of Automatic Readability Assessment Methods</strong> — Oral at EMNLP 2026 (Computational Linguistics paper). <a href="https://lacclab.github.io/Readability-Evaluation-Using-Reading-Ease-Landing/">Project Page</a></li>
-                <li><strong>EyeBench</strong> — Poster at EurIPS 2025, Copenhagen.</li>
-                <li><strong>Text Readability Measures Do Not Predict Reading Ease</strong> — Poster at CPL 2025, Utrecht.</li>
-                <li><strong>Differences in Text Simplification Effects in L1 vs L2</strong> — Oral at IndiREAD 2025, Saarbrücken.</li>
-                <li><strong>Text Simplification Effects on Reading Fluency and Reading Comprehension</strong> — Oral at CogSci 2025, San Francisco (Hybrid) and at the Multipleye Workshop 2025, Stuttgart.</li>
-                <li><strong>Surprisal & Reading Times</strong> — Oral at CoNLL 2024, Miami; Poster at ISCOL 2024, Haifa.</li>
-              </ul>
-            </td>
-          </tr>
-        </tbody></table>
-
-        <!-- Short CV (academic-homepage compact style) -->
-        <table style="width:100%;border:0;border-spacing:0;border-collapse:separate;margin:0 auto"><tbody>
-          <tr>
-            <td style="padding:16px;width:100%;vertical-align:top">
-              <h2>Bio</h2>
-              <p style="margin-top:0">
-                <strong>🏆  Awards.</strong>
-                <ul>
-                  <li><a href="https://www.edrf.org.il/en/programs/1703/">Ariane de Rothschild Women Doctoral Scholarship</a></li>
-                  <li>VATAT Scholarship for Outstanding MSc Students</li>
-                </ul>
-                <br/>
-                <strong>🎓 Education.</strong>
-                <ul style="margin-top:4px; margin-bottom:0;">
-                  <li>PhD (Direct Track) in Data Science, Technion (Sep 2025–Present)</li>
-                  <li>MSc (Direct Track) in Data Science, Technion (May 2024–Sep 2025)</li>
-                  <li>BSc in Data Science & Engineering, Technion (Oct 2020–Oct 2024)</li>
-                </ul>
-                <br/>
-                <strong>💼  Industry.</strong> Data Scientist at Wiliot (2022–2024).
-                <br/>
-                <strong>👩‍🏫  Teaching.</strong>
-                <ul style="margin-top:4px; margin-bottom:0;">
-                  <li>TA, Language, Computation & Cognition (0960222)</li>
-                  <li>TA, Cognition in Information Visualization (0960625)</li>
-                  <li>TA, Intelligent Interactive Systems (00960235)</li>
-                </ul>
-              </p>
-            </td>
-          </tr>
-        </tbody></table>
-
-        <!-- <p class="small" style="text-align:center;margin:32px 0 10px">Last updated: Nov 2025 · Please see my <a href="/data/CV_Keren_Gruteke_Klein.pdf">CV</a> for details.</p> -->
-        <p class="small" style="text-align:center;margin:32px 0 10px">
-        Last updated: Nov 2025 · © Keren Gruteke Klein · Feel free to get in touch.
-        </p>
-
-      </td></tr>
-    </tbody></table>
-  </body>
+</div>
+<footer>Last updated: October 2026 · © Keren Gruteke Klein</footer>
+<script>
+document.querySelectorAll('[data-toggle]').forEach(function(b){
+  b.addEventListener('click',function(){
+    var d=document.getElementById(b.getAttribute('data-toggle')); var open=d.hidden;
+    d.hidden=!open; b.setAttribute('aria-expanded',open);
+  });
+});
+document.querySelectorAll('.bib .copy').forEach(function(b){
+  b.addEventListener('click',function(){
+    var pre=b.nextElementSibling, t=pre.textContent;
+    function sel(){var r=document.createRange();r.selectNodeContents(pre);var s=window.getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected';}
+    try{navigator.clipboard.writeText(t).then(function(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy';},1500);},sel);}catch(e){sel();}
+  });
+});
+</script>
+</body>
 </html>
-
